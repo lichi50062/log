@@ -1,0 +1,121 @@
+@echo off
+title Log執行時間分析工具
+chcp 65001 >nul 2>&1
+setlocal enabledelayedexpansion
+
+echo.
+echo ==============================================
+echo          Log執行時間分析工具
+echo ==============================================
+echo.
+
+REM 檢查執行檔是否存在
+if not exist "LogAnalyzer.exe" (
+    echo [錯誤] 找不到 LogAnalyzer.exe
+    echo 請確保 LogAnalyzer.exe 與此批次檔在同一資料夾
+    echo.
+    pause
+    exit /b 1
+)
+
+echo [OK] 找到執行程式: LogAnalyzer.exe
+echo.
+
+REM 顯示當前目錄的檔案（排除.exe和.bat）
+echo 可分析的檔案:
+echo ----------------------------------------------
+set file_count=0
+for %%f in (*) do (
+    set "filename=%%f"
+    set "ext=%%~xf"
+    if /i not "!ext!"==".exe" (
+        if /i not "!ext!"==".bat" (
+            echo   %%f
+            set /a file_count+=1
+        )
+    )
+)
+echo ----------------------------------------------
+echo 共 !file_count! 個檔案可分析
+echo.
+
+if !file_count! equ 0 (
+    echo [警告] 沒有找到可分析的檔案
+    echo 請將要分析的log檔案放在此資料夾中
+    echo.
+    pause
+    exit /b 1
+)
+
+echo 搜尋格式範例:
+echo   1. "執行時間: 123 ms"     前綴="執行時間: "  後綴=" ms"
+echo   2. "耗時 456 毫秒"        前綴="耗時 "      後綴=" 毫秒"
+echo   3. "duration: 789ms"     前綴="duration: " 後綴="ms"
+echo   4. "bbbbaaa 100 ms"      前綴="bbbbaaa "   後綴=" ms"
+echo.
+
+:input_prefix
+set "prefix="
+set /p prefix="請輸入前綴字串: "
+if "!prefix!"=="" (
+    echo [錯誤] 前綴不能為空
+    goto input_prefix
+)
+
+:input_suffix
+set "suffix="
+set /p suffix="請輸入後綴字串: "
+if "!suffix!"=="" (
+    echo [錯誤] 後綴不能為空
+    goto input_suffix
+)
+
+echo.
+echo ==============================================
+echo 開始分析
+echo ==============================================
+echo 前綴: "!prefix!"
+echo 後綴: "!suffix!"
+echo 目錄: 當前資料夾
+echo 檔案: !file_count! 個
+echo ==============================================
+echo.
+echo 正在執行分析，請稍候...
+
+REM 執行分析程式
+LogAnalyzer.exe "." "!prefix!" "!suffix!"
+set result_code=!errorlevel!
+
+echo.
+echo ==============================================
+if !result_code! equ 0 (
+    echo [成功] 分析完成！
+    echo.
+    echo 結果檔案:
+    for %%f in (執行時間分析結果_*.xlsx) do (
+        if exist "%%f" (
+            echo   - %%f
+        )
+    )
+    echo.
+    echo 請用Excel開啟結果檔案查看統計資料
+) else (
+    echo [失敗] 分析過程發生錯誤
+    echo 錯誤代碼: !result_code!
+    echo.
+    echo 可能的原因:
+    echo   1. 檔案中沒有符合條件的記錄
+    echo   2. 前綴或後綴字串不正確
+    echo   3. 檔案編碼問題
+    echo.
+    echo 建議:
+    echo   1. 檢查前綴後綴是否完全匹配
+    echo   2. 確認log檔案中確實有相應格式
+    echo   3. 嘗試簡化搜尋條件
+)
+echo ==============================================
+echo.
+
+echo 按任意鍵結束...
+pause >nul
+exit /b !result_code!
