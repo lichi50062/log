@@ -1,9 +1,3 @@
-
-1. 發現有一台陌生裝置嘗試登入，請確認是否為本人操作	An unrecognized device attempted to log in. Please confirm whether this was you.
-2. 發現陌生裝置嘗試登入	An unrecognized device attempted to log in.
-3. 於 {0} 登入的陌生裝置驗證有效時間已過期，資訊如下	The verification for the unrecognized device that attempted to log in on {0} has expired. Details are as follows.
-4. 於 {0} 已驗證此陌生裝置但拒絕登入，資訊如下	The unrecognized device was verified on {0}, but login was denied. Details are as follows.
-5. 於 {0} 已成功驗證此陌生裝置，資訊如下	The unrecognized device was successfully verified on {0}. Details are as follows.
-6. 已失效	Expired
-7. 已拒絕登入	Login Denied
-8. 已驗證	Verified
+這個您可以在變更郵件地址功能中，修改測資對應的郵件地址為您本人的地址測試看看。我修改過為我本人的郵件地址，但是vm裡面發送不了郵件到我得郵箱，所以我也測試不了。
+您改為您的郵件地址後，可以看看能否收到郵件，若能收到，您到郵箱裡面打開郵件看是否英文版是否ok？
+用那個eai的網站模擬郵件現在確實是看出不英文的。
