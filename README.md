@@ -1,2 +1,1 @@
-為符合金融機構辦理電子銀行業務安全控管作業基準，網銀新密碼驗證於內部傳輸上改採用3DES Encipher (SHA512(密碼明碼+客戶ID(無需補足長度))) with WorkingKey取得到Cipher Text值後傳輸。
-原網銀舊密碼規則在傳輸前有先對密碼(明碼)做CP1047編碼作業後，再依系統間訂定好的金鑰進行加密傳輸。因新加密規則已符合金融機構辦理電子銀行業務安全控管作業基準，故新電文密碼欄位不再使用執行編碼CP1047
+Two Factor Authentication verification code 483077, transaction code YUCWQ. To prevent fraud, don't share! (by Taipei Fubon Bank)
